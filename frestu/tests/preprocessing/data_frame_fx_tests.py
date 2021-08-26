@@ -1,4 +1,7 @@
-import os, sys, unittest
+import os
+import sys
+import unittest
+sys.path.append(os.path.abspath(".."))
 from frestu.preprocessing.data_frame import DataFrameFx
 
 

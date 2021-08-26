@@ -1,5 +1,8 @@
-import os, sys, unittest
+import os
+import sys
+import unittest
 import pandas as pd
+sys.path.append(os.path.abspath(".."))
 from frestu.preprocessing.data_frame import DataFrame
 
 
@@ -36,3 +39,7 @@ class DataFrameTests(unittest.TestCase):
     
     def test_select_business_minutes(self):
         pass
+
+
+if __name__ == '__main__':
+    pass

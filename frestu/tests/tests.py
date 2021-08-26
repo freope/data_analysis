@@ -1,7 +1,9 @@
-import os, sys, unittest
+import os
+import sys
+import unittest
 sys.path.append(os.path.abspath(".."))
-from frestu.test.preprocessing.data_frame import DataFrameTests
-from frestu.test.preprocessing.data_frame_fx import DataFrameFxTests
+from frestu.tests.preprocessing.data_frame_tests import DataFrameTests
+from frestu.tests.preprocessing.data_frame_fx_tests import DataFrameFxTests
 
 
 def test_suite():
