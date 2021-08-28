@@ -10,13 +10,15 @@ class GeneDiscreteTests(unittest.TestCase):
 
     def setUp(self):
         self.gene = GeneDiscrete(
-            candidates = [0, 1, 2, 3, 4],
-            dimension = 3,
-            mutate_probability = 0.01)
+            candidates=[0, 1, 2, 3, 4],
+            crossover=None,
+            dimension=3,
+            mutate_probability=0.01)
         self.gene_duplicate_false = GeneDiscrete(
-            candidates = [0, 1, 2, 3, 4],
-            dimension = 5,
-            mutate_probability = 0.01,
+            candidates=[0, 1, 2, 3, 4],
+            crossover=None,
+            dimension=5,
+            mutate_probability=0.01,
             duplicate = False)
     
     def tearDown(self):

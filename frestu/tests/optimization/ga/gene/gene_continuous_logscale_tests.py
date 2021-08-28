@@ -12,15 +12,15 @@ class GeneContinuousLogscaleTests(unittest.TestCase):
 
     def setUp(self):
         self.gene = GeneContinuousLogscale(
-            minimum = 1.0,
-            maximum = 5.0,
-            dimension = 3,
-            mutate_probability = 0.01)
+            minimum=1.0,
+            maximum=5.0,
+            dimension=3,
+            mutate_probability=0.01)
         self.gene_partner = GeneContinuousLogscale(
-            minimum = 1.0,
-            maximum = 5.0,
-            dimension = 3,
-            mutate_probability = 0.01)
+            minimum=1.0,
+            maximum=5.0,
+            dimension=3,
+            mutate_probability=0.01)
 
     def tearDown(self):
         pass

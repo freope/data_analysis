@@ -12,17 +12,19 @@ class IndividualTests(unittest.TestCase):
 
     def setUp(self):
         self.gene_c = GeneContinuous(
-            minimum = 0.1,
-            maximum = 10,
-            dimension = 1,
+            minimum=0.1,
+            maximum=10,
+            dimension=1,
         )
         self.gene_kernel = GeneDiscrete(            
-            candidates = ['rbf', 'poly', 'linear'],
-            dimension = 1,
+            candidates=['rbf', 'poly', 'linear'],
+            crossover=None,
+            dimension=1,
         )
         self.gene_feature = GeneDiscrete(
-            candidates = [0, 1],
-            dimension = 30,
+            candidates=[0, 1],
+            crossover=None,
+            dimension=30,
         )
         self.chromosome_prototype = {
             'C': self.gene_c,

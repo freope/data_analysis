@@ -42,11 +42,12 @@ class GeneContinuousLogscale(GeneAbstract):
             learning_rate
             * (np.log10(gene_partner.values) - np.log10(self.values))
             * np.sign(fitness_partner - fitness_self))
+        child_values = self.values + amount_of_change
 
         # 自身の values を上書きすると、ある世代交代内で同じ個体が親に選ばれた場合、
         # 既に crossover 後の values が使われてしまうので、コピーしている。
         gene_child = copy.copy(self)
-        gene_child.values = self.values + amount_of_change
+        gene_child.values = child_values
         return gene_child
 
     def realize(self):

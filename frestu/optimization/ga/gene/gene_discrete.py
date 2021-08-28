@@ -1,3 +1,4 @@
+import copy
 import random
 
 import numpy as np
@@ -8,13 +9,14 @@ from frestu.optimization.ga.gene.gene_abstract import GeneAbstract
 class GeneDiscrete(GeneAbstract):
 
     def __init__(
-            self, candidates, duplicate=True,
+            self, candidates, crossover, duplicate=True,
             dimension=1, mutate_probability=0.01):
         if not(duplicate) and len(candidates) < dimension:
             # 重複を許さず、候補数より次元数が多い場合は、エラー
             raise ValueError('dimension should be len(candidates) or less')
         super().__init__(dimension, mutate_probability)
         self.__candidates = candidates
+        self.__crossover = crossover
         self.__duplicate = duplicate
         self.values = None
 
@@ -45,7 +47,12 @@ class GeneDiscrete(GeneAbstract):
             self.values[mutated_position])
 
     def crossover(self, gene_partner, **kwargs):
-        pass
+        child_values = self.__crossover(self.values, gene_partner.values)
+        # 自身の values を上書きすると、ある世代交代内で同じ個体が親に選ばれた場合、
+        # 既に crossover 後の values が使われてしまうので、コピーしている。
+        gene_child = copy.copy(self)
+        gene_child.values = child_values
+        return gene_child
 
     def realize(self):
         self.values = self.__choice()

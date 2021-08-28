@@ -1,6 +1,5 @@
 def crossover_n_point():
-    print('hoge')
-
+    pass
 
 def crossover_uniform():
     pass
