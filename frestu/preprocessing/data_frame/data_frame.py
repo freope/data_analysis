@@ -1,8 +1,10 @@
 import pandas as pd
+
 from frestu.util.string import new_string
 
 
 class DataFrame(pd.DataFrame):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(pd.DataFrame(*args, **kwargs))
     
@@ -115,16 +117,20 @@ class DataFrame(pd.DataFrame):
 
         start = df.head(1).index[0].strftime('%Y-%m-%d')
         end = df.tail(1).index[0].strftime('%Y-%m-%d')
-        business_dates = pd.DataFrame(pd.date_range(start=start, end=end, freq='B'), columns=[col_right_on])
+        business_dates = pd.DataFrame(
+            pd.date_range(start=start, end=end, freq='B'),
+            columns=[col_right_on])
 
         # %M:%h:%s を除いた列を生成
-        df[col_left_on] = df.index.strftime('%Y-%m-%d').astype(business_dates.dtypes[col_right_on])
+        df[col_left_on] = df.index.strftime('%Y-%m-%d') \
+            .astype(business_dates.dtypes[col_right_on])
 
         # インデックスを退避
         df[col_index] = df.index
 
         # 内部結合することで、営業日でない日のレコードを除く
-        df = df.merge(business_dates, left_on=col_left_on, right_on=col_right_on)
+        df = df.merge(business_dates,
+                      left_on=col_left_on, right_on=col_right_on)
 
         # 退避したインデックスを再設定（マージしたことでインデックスが失われるため）
         df.set_index(col_index, inplace=True)

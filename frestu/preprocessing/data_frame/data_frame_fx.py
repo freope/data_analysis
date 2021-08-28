@@ -1,8 +1,10 @@
 import pandas as pd
+
 from frestu.preprocessing.data_frame import DataFrame
 
 
 class DataFrameFx(DataFrame):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

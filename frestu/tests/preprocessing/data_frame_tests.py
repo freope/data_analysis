@@ -1,12 +1,15 @@
 import os
 import sys
 import unittest
+
 import pandas as pd
+
 sys.path.append(os.path.abspath(".."))
 from frestu.preprocessing.data_frame import DataFrame
 
 
 class DataFrameTests(unittest.TestCase):
+
     def setUp(self):
         pass
     
@@ -42,4 +45,4 @@ class DataFrameTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    pass
+    unittest.main()
