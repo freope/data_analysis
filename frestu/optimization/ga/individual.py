@@ -13,10 +13,10 @@ class Individual:
         for gene_name, gene_female in parent_female.chromosome.items():
             gene_male = parent_male.chromosome[gene_name]
             self.chromosome[gene_name] = gene_female.crossover(
-                    gene_male,
-                    fitness_self=self.parent_female.fitness,
-                    fitness_partner=self.parent_male.fitness,
-                    learning_rate=self.learning_rate)
+                gene_male,
+                fitness_self=self.parent_female.fitness,
+                fitness_partner=self.parent_male.fitness,
+                learning_rate=self.learning_rate)
     
     def mutate(self):
         for gene in chromosome.values():
