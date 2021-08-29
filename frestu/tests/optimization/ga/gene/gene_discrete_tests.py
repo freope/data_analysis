@@ -4,6 +4,7 @@ import unittest
 
 sys.path.append(os.path.abspath(".."))
 from frestu.optimization.ga.gene import GeneDiscrete
+from frestu.optimization.ga.crossover import *
 
 
 class GeneDiscreteTests(unittest.TestCase):
@@ -11,7 +12,7 @@ class GeneDiscreteTests(unittest.TestCase):
     def setUp(self):
         self.gene = GeneDiscrete(
             candidates=[0, 1, 2, 3, 4],
-            crossover=None,
+            crossover=crossover_uniform,
             dimension=3,
             mutate_probability=0.01)
         self.gene_duplicate_false = GeneDiscrete(
@@ -20,6 +21,11 @@ class GeneDiscreteTests(unittest.TestCase):
             dimension=5,
             mutate_probability=0.01,
             duplicate = False)
+        self.gene_partner = GeneDiscrete(
+            candidates=[0, 1, 2, 3, 4],
+            crossover=crossover_uniform,
+            dimension=3,
+            mutate_probability=0.01)
     
     def tearDown(self):
         pass
@@ -82,6 +88,15 @@ class GeneDiscreteTests(unittest.TestCase):
         # 和が同じになることで、重複がないことを確認する
         # HACK: 偶々和が同じになった場合は、テストできていないことになる。
         self.assertEqual(original_values.sum(), mutated_values.sum())
+
+    def test_crossover(self):
+        self.gene.realize()
+        self.gene_partner.realize()
+        gene_child = self.gene.crossover(
+            self.gene_partner,
+            fitness_self=10, fitness_partner=20,
+            learning_rate=0.5)
+        self.assertEqual(len(gene_child.values), len(self.gene.values))
 
     def test_realize(self):
         realized = self.gene.realize().values

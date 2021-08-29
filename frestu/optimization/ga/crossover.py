@@ -34,8 +34,14 @@ def crossover_n_point(vec1, vec2, n_point):
     return vec
 
 
-def crossover_uniform():
-    pass
+def crossover_uniform(vec1, vec2):
+    size = min(vec1.shape[0], vec2.shape[0])
+    exchanging_positions = np.array(random.choices([True, False], k=size))
+    
+    vec = copy.copy(vec1)
+    vec[exchanging_positions] = vec2[exchanging_positions]
+    
+    return vec
 
 
 def crossover_partially_mapped():

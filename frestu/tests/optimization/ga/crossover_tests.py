@@ -22,6 +22,13 @@ class CrossoverTests(unittest.TestCase):
         self.assertEqual(list(vec == self.vec1), list(vec != self.vec2))
         self.assertEqual(list(vec == self.vec2), list(vec != self.vec1))
 
+    def test_crossover_uniform(self):
+        vec = crossover_uniform(self.vec1, self.vec2)
+        # HACK: 
+        # 遺伝子が交換されていることをテストし、交換のされ方はテストできていない。
+        self.assertEqual(list(vec == self.vec1), list(vec != self.vec2))
+        self.assertEqual(list(vec == self.vec2), list(vec != self.vec1))
+
 
 if __name__ == '__main__':
     unittest.main()
