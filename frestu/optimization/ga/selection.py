@@ -7,7 +7,6 @@ def select_roulette(sortable):
     sortable = np.array(sortable)
 
     minimum = sortable.min()
-    
     sortable_scaled = sortable - minimum
     sortable_scaled = sortable_scaled / sortable_scaled.sum()
     
