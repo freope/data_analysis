@@ -5,7 +5,7 @@ import unittest
 sys.path.append(os.path.abspath(".."))
 from frestu.optimization.ga.gene import GeneDiscrete
 from frestu.optimization.ga.gene import GeneContinuous
-from frestu.optimization.ga.individual import Individual
+from frestu.optimization.ga import Individual
 from frestu.optimization.ga.crossover import *
 
 
@@ -31,16 +31,12 @@ class IndividualTests(unittest.TestCase):
         }
         self.individual = Individual.create(
             self.chromosome_prototype,
-            evaluator=lambda chrom: 0,
-            learning_rate=1.5)
-        self.parent_female = Individual.create(
+            evaluate=lambda chrom: 0,
+            learning_rate=1.5).realize()
+        self.partner = Individual.create(
             self.chromosome_prototype,
-            evaluator=lambda chrom: 1,
-            learning_rate=1.5)
-        self.parent_male = Individual.create(
-            self.chromosome_prototype,
-            evaluator=lambda chrom: 2,
-            learning_rate=1.5)
+            evaluate=lambda chrom: 1,
+            learning_rate=1.5).realize()
     
     def tearDown(self):
         pass
@@ -48,28 +44,28 @@ class IndividualTests(unittest.TestCase):
     def test_crossover(self):
         # 本来は evaluate で設定される値
         self.individual.evaluate()
-        self.parent_female.evaluate()
-        self.parent_male.evaluate()
+        self.partner.evaluate()
 
-        self.individual.crossover(self.parent_female, self.parent_male)
+        child = self.individual.crossover(self.partner)
 
         learning_rate = 1.5
-        c_female = self.parent_female.chromosome['C'].values
-        c_male = self.parent_male.chromosome['C'].values
         c_ind = self.individual.chromosome['C'].values
-        kernel_female = self.parent_female.chromosome['kernel'].values
-        kernel_male = self.parent_male.chromosome['kernel'].values
+        c_partner = self.partner.chromosome['C'].values
+        c_child = child.chromosome['C'].values
         kernel_ind = self.individual.chromosome['kernel'].values
+        kernel_partner = self.partner.chromosome['kernel'].values
+        kernel_child = child.chromosome['kernel'].values
 
-        # 今回は male の fitness が female の fitness より大きいので
-        c_child = learning_rate * (c_male - c_female) + c_female
+        # 今回は partner の fitness が individual の fitness より大きいので
+        c_child_answer = learning_rate * (c_partner - c_ind) + c_ind
 
-        self.assertEqual(c_ind, c_child)
+        self.assertEqual(c_child, c_child_answer)
         self.assertTrue(
-            kernel_ind == kernel_female or kernel_ind == kernel_male)
+            kernel_child == kernel_ind or kernel_child == kernel_partner)
 
     def test_create(self):
-        ind = Individual.create(self.chromosome_prototype, evaluator=None)
+        ind = Individual.create(
+            self.chromosome_prototype, evaluate=None).realize()
         self.assertLessEqual(ind.chromosome['C'].values[0], self.gene_c.maximum)
         self.assertGreaterEqual(
             ind.chromosome['C'].values[0], self.gene_c.minimum)
