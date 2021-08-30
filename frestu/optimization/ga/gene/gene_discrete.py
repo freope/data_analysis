@@ -38,13 +38,30 @@ class GeneDiscrete(GeneAbstract):
         mutated_position = np.random.uniform(
             low=0.0, high=1.0, size=self.dimension) < self.mutate_probability
         mutated_values = self.__choice()
-        self.values[mutated_position] = mutated_values[mutated_position]
+
+        # 要素が文字列の場合、以下では文字列が短くなり、エラーとなり得るので注意
+        # self.values[mutated_position] = mutated_values[mutated_position]
+        # よって以下のようにした
+        size = len(self.values)
+        values = np.full(size, None)
+        values[~mutated_position] = self.values[~mutated_position]
+        values[mutated_position] = mutated_values[mutated_position]
+        self.values = values
     
     def __mutate_not_duplicate(self):
         mutated_position = np.random.uniform(
             low=0.0, high=1.0, size=self.dimension) < self.mutate_probability
-        self.values[mutated_position] = np.random.permutation(
+
+        # 要素が文字列の場合、以下では文字列が短くなり、エラーとなり得るので注意
+        # self.values[mutated_position] = np.random.permutation(
+        #     self.values[mutated_position])
+        # よって以下のようにした
+        size = len(self.values)
+        values = np.full(size, None)
+        values[~mutated_position] = self.values[~mutated_position]
+        values[mutated_position] = np.random.permutation(
             self.values[mutated_position])
+        self.values = values
 
     def crossover(self, gene_partner, **kwargs):
         child_values = self.__crossover(self.values, gene_partner.values)
