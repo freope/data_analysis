@@ -3,8 +3,8 @@ import sys
 import unittest
 
 sys.path.append(os.path.abspath(".."))
-from frestu.tests.preprocessing.data_frame_tests import DataFrameTests
-from frestu.tests.preprocessing.data_frame_fx_tests import DataFrameFxTests
+from frestu.tests.data_type.data_frame.data_frame_tests import DataFrameTests
+from frestu.tests.data_type.data_frame.data_frame_fx_tests import DataFrameFxTests
 from frestu.tests.optimization.ga.gene.gene_discrete_tests import GeneDiscreteTests
 from frestu.tests.optimization.ga.gene.gene_continuous_tests import GeneContinuousTests
 from frestu.tests.optimization.ga.gene.gene_continuous_logscale_tests import GeneContinuousLogscaleTests

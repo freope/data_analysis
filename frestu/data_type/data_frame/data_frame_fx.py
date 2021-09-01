@@ -1,6 +1,6 @@
 import pandas as pd
 
-from frestu.preprocessing.data_frame import DataFrame
+from frestu.data_type.data_frame import DataFrame
 
 
 class DataFrameFx(DataFrame):

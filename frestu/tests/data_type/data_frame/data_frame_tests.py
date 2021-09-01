@@ -5,7 +5,7 @@ import unittest
 import pandas as pd
 
 sys.path.append(os.path.abspath(".."))
-from frestu.preprocessing.data_frame import DataFrame
+from frestu.data_type.data_frame import DataFrame
 
 
 class DataFrameTests(unittest.TestCase):

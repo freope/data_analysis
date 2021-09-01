@@ -3,7 +3,7 @@ import sys
 import unittest
 
 sys.path.append(os.path.abspath(".."))
-from frestu.preprocessing.data_frame import DataFrameFx
+from frestu.data_type.data_frame import DataFrameFx
 
 
 class DataFrameFxTests(unittest.TestCase):
