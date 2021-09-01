@@ -18,8 +18,8 @@ class Individual:
             gene.mutate()
 
     def crossover(self, partner):
-        chromosome_child = {
-            f'{gene_name}': None for gene_name in self.chromosome.keys()}
+        chromosome_child = dict([
+            (gene_name, None) for gene_name in self.chromosome.keys()])
 
         for gene_name, gene in self.chromosome.items():
             gene_partner = partner.chromosome[gene_name]
