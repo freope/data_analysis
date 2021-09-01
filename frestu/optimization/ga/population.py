@@ -1,3 +1,7 @@
+import copy
+import pickle
+
+
 class Population:
     
     def __init__(self, individuals, select, n_eletes=1):
@@ -5,7 +9,7 @@ class Population:
         self.__select = select
         self.__n_eletes = n_eletes
         self.__pop_size = len(individuals)
-    
+
     def alternate(self):
         """
         Notes
@@ -20,6 +24,7 @@ class Population:
         for i in range(self.__n_eletes):
             next_individuals.append(self.individuals[i])
 
+        # NOTE: 並列化で早くできる 
         for i in range(self.__n_eletes, self.__pop_size):
             # 親を選択
             parent = self.__select_parent()
@@ -31,37 +36,36 @@ class Population:
         # 世代交代
         self.individuals = next_individuals
 
-    def can_alternate(self):
-        pass
-
     def mutate(self):
+        # NOTE: 並列化で早くできる 
         for individual in self.individuals:
             individual.mutate()
+
+    def realize(self):
+        # NOTE: 並列化で早くできる 
+        for individual in self.individuals:
+            individual.realize()
+        return self
 
     def evaluate(self):
         # NOTE: 並列化で早くできる 
         for individual in self.individuals:
             individual.evaluate()
-        self.__sort()
+        # 適応度が大きい順に並べ替え
+        self.individuals.sort(key=lambda x: -x.fitness)
 
     def show_result(self, show_result):
         show_result(self.individual)        
     
-    def save_generation(self, path):
-        pass
-    
-    def load_generation(self, path):
-        pass
+    def save(self, path):
+        with open(path, 'wb') as file:
+            pickle.dump(self, file)
 
     def __select_parent(self):
         # self.individuals は事前にソートされている必要がある。
         fitnesses = [individual.fitness for individual in self.individuals]
         ix_selected = self.__select(fitnesses)
         return self.individuals[ix_selected]
-        
-    def __sort(self):
-        # 適応度が大きい順に並べ替え
-        pass
     
     @classmethod
     def create(cls, individual_prototype, select, pop_size):
@@ -69,3 +73,8 @@ class Population:
         individuals = [
             copy.deepcopy(individual_prototype) for _ in range(pop_size)]
         return cls(individuals, select)
+    
+    @staticmethod
+    def load(path):
+        with open(path, 'rb') as file:
+            return pickle.load(file)
