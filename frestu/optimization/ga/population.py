@@ -90,9 +90,3 @@ class Population:
         individuals = [
             copy.deepcopy(individual_prototype) for _ in range(pop_size)]
         return cls(individuals, select)
-    
-    @staticmethod
-    def load(path, individual_prototype):
-
-        with open(path, 'rb') as file:
-            return pickle.load(file)
