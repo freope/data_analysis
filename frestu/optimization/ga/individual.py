@@ -14,7 +14,7 @@ class Individual:
         return self.__fitness    
 
     def mutate(self):
-        for gene in chromosome.values():
+        for gene in self.chromosome.values():
             gene.mutate()
 
     def crossover(self, partner):
