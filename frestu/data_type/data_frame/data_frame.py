@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from frestu.util.string import new_string
@@ -142,3 +143,67 @@ class DataFrame(pd.DataFrame):
         df.index.name = index_name        
 
         return self.__class__(df)
+        
+    def create_column_log(self, column, suffix='_log', inplace=False):
+        if inplace:
+            df = self
+        else:
+            df = self.copy()
+
+        log_df = pd.DataFrame(np.log(df[column]))
+        log_df.columns = [column + suffix]
+
+        df = pd.concat([df, log_df], axis=1)
+
+        return self.__class__(df)
+
+    def create_columns_diff(
+        self, column, shifts, suffix='_diff_', inplace=False):
+        if inplace:
+            df = self
+        else:
+            df = self.copy()
+
+        diff_dfs = [df[column] - df[column].shift(i) for i in shifts]
+        columns_name = [column + suffix + str(i) for i in shifts]
+
+        diff_dfs = pd.concat(diff_dfs, axis=1)
+        diff_dfs.columns = columns_name
+
+        df = pd.concat([df, diff_dfs], axis=1)
+
+        return self.__class__(df)
+
+    def create_columns_past(
+            self, column, shifts, suffix='_past_', inplace=False):
+        if inplace:
+            df = self
+        else:
+            df = self.copy()
+
+        shifted_dfs = [df[column].shift(i) for i in shifts]
+        columns_name = [column + suffix + str(i) for i in shifts]
+
+        shifted_dfs = pd.concat(shifted_dfs, axis=1)
+        shifted_dfs.columns = columns_name
+
+        df = pd.concat([df, shifted_dfs], axis=1)
+
+        return self.__class__(df)
+    
+    def create_columns_future(
+            self, column, shifts, suffix='_future_', inplace=False):
+        if inplace:
+            df = self
+        else:
+            df = self.copy()
+
+        shifted_dfs = [df[column].shift(-i) for i in shifts]
+        columns_name = [column + suffix + str(i) for i in shifts]
+
+        shifted_dfs = pd.concat(shifted_dfs, axis=1)
+        shifted_dfs.columns = columns_name
+
+        df = pd.concat([df, shifted_dfs], axis=1)
+
+        return self.__class__(df)        
