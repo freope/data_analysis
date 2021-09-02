@@ -44,6 +44,10 @@ class GeneContinuousLogscale(GeneAbstract):
             * np.sign(fitness_partner - fitness_self))
         child_values = self.values + amount_of_change
 
+        # 最小値以上最大以下に制限する
+        child_values[child_values < self.minimum] = self.minimum
+        child_values[self.maximum < child_values] = self.maximum
+
         # 自身の values を上書きすると、ある世代交代内で同じ個体が親に選ばれた場合、
         # 既に crossover 後の values が使われてしまうので、コピーしている。
         gene_child = copy.copy(self)
