@@ -55,11 +55,28 @@ class Population:
         self.individuals.sort(key=lambda x: -x.fitness)
 
     def show_result(self, show_result):
-        show_result(self.individual)        
+        show_result(self.individuals)        
     
     def save(self, path):
+        chromosomes = [
+            dict([
+                (gene_name, gene.values)
+                for gene_name, gene in individual.chromosome.items()])
+            for individual in self.individuals]
         with open(path, 'wb') as file:
-            pickle.dump(self, file)
+            pickle.dump(chromosomes, file)
+
+    def load(self, path, individual_prototype):
+        with open(path, 'rb') as file:
+            chromosomes = pickle.load(file)
+        individuals = []
+        for chromosome in chromosomes:
+            # deepcopy でなければならない
+            individual = copy.deepcopy(individual_prototype)
+            for gene_name, gene_value in chromosome.items():
+                individual.chromosome[gene_name].values = gene_value
+            individuals.append(individual)
+        self.individuals = individuals
 
     def __select_parent(self):
         # self.individuals は事前にソートされている必要がある。
@@ -75,6 +92,7 @@ class Population:
         return cls(individuals, select)
     
     @staticmethod
-    def load(path):
+    def load(path, individual_prototype):
+
         with open(path, 'rb') as file:
             return pickle.load(file)
