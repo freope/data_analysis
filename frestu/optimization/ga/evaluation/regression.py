@@ -32,7 +32,7 @@ def create_evaluate_by_cross_validation(
             y_train, y_test = y.loc[ix_train], y.loc[ix_test]
 
             model = model_class(**hparams)
-            model.fit(X_train, y_train)
+            model.fit(X_train, y_train.values.ravel())
 
             y_train_pred = model.predict(X_train)
             y_train_pred = pd.DataFrame(y_train_pred, index=y_train.index)
