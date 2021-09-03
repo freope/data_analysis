@@ -12,10 +12,16 @@ class Population:
 
     def alternate(self):
         """
+        各個体の適応度に応じて、世代交代を行う。
+        
         Notes
         -----
         事前に self.evaluate() を実行して、self.individuals 内の個体の
         適応度を算出し、適応度降順に並びかえておく必要がある。
+
+        Examples
+        --------
+        >>> population.alternate()
         """
         # 次世代の個体群
         next_individuals = []

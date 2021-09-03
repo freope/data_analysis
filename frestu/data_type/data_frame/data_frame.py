@@ -20,7 +20,8 @@ class DataFrame(pd.DataFrame):
         
         Returns
         -------
-        out : 自身のデータフレーム
+        self : DataFrame
+            自身のデータフレーム
 
         Notes
         -----
@@ -58,10 +59,8 @@ class DataFrame(pd.DataFrame):
         
         Returns
         -------
-        out : 自身のデータフレーム
-
-        Notes
-        -----
+        self : DataFrame
+            自身のデータフレーム
 
         Examples
         --------
@@ -96,10 +95,8 @@ class DataFrame(pd.DataFrame):
         
         Returns
         -------
-        out : 自身のデータフレーム
-
-        Notes
-        -----
+        self : DataFrame
+            自身のデータフレーム
 
         Examples
         --------
@@ -145,6 +142,28 @@ class DataFrame(pd.DataFrame):
         return self.__class__(df)
         
     def create_column_log(self, column, suffix='_log', inplace=False):
+        """
+        自然対数を取ったカラムを作成する
+
+        Parameters
+        ----------
+        column : str
+            自然対数をとるカラム名
+        suffix : str
+            column で指定したカラム名の末尾に、この文字列を付加して、
+            新たなカラムが作成される。
+        inplace : boolean, optional
+            データフレームを置き換える。デフォルトは False。
+        
+        Returns
+        -------
+        self : DataFrame
+            自身のデータフレーム
+
+        Examples
+        --------
+        >>> df.select_business_minutes()
+        """
         if inplace:
             df = self
         else:
