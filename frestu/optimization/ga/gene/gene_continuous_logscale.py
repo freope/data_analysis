@@ -38,11 +38,10 @@ class GeneContinuousLogscale(GeneAbstract):
         fitness_partner = kwargs['fitness_partner']
         learning_rate = kwargs['learning_rate']
 
-        amount_of_change = 10 ** (
-            learning_rate
-            * (np.log10(gene_partner.values) - np.log10(self.values))
-            * np.sign(fitness_partner - fitness_self))
-        child_values = self.values + amount_of_change
+        amount_of_change = learning_rate \
+            * (np.log10(gene_partner.values) - np.log10(self.values)) \
+            * np.sign(fitness_partner - fitness_self)
+        child_values = 10 ** (np.log10(self.values) + amount_of_change)
 
         # 最小値以上最大以下に制限する
         child_values[child_values < self.minimum] = self.minimum
