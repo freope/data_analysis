@@ -140,7 +140,47 @@ class DataFrame(pd.DataFrame):
         df.index.name = index_name        
 
         return self.__class__(df)
+    
+    def create_column_polynomial(self, column, degrees, suffix='_poly_', inplace=False):
+        """
+        n 次式のカラムを作成する
+
+        Parameters
+        ----------
+        column : str
+            n 次式をとるカラム名
+        degrees : list of number
+            n の値のリスト。整数でない実数も指定可能。
+        suffix : str
+            column で指定したカラム名の末尾に、この文字列を付加して、
+            新たなカラムが作成される。
+        inplace : boolean, optional
+            データフレームを置き換える。デフォルトは False。
         
+        Returns
+        -------
+        self : DataFrame
+            自身のデータフレーム
+        
+        Examples
+        --------
+        >>> df.create_column_polynomial('val', [0.5, 2, 3])
+        """
+        if inplace:
+            df = self
+        else:
+            df = self.copy()
+
+        poly_dfs = [df[column] ** degree for degree in degrees]
+        columns_name = [column + suffix + str(degree) for degree in degrees]
+
+        poly_dfs = pd.concat(poly_dfs, axis=1)
+        poly_dfs.columns = columns_name
+
+        df = pd.concat([df, poly_dfs], axis=1)
+
+        return self.__class__(df)
+
     def create_column_log(self, column, suffix='_log', inplace=False):
         """
         自然対数を取ったカラムを作成する
@@ -162,7 +202,7 @@ class DataFrame(pd.DataFrame):
 
         Examples
         --------
-        >>> df.select_business_minutes()
+        >>> df.create_column_log('val')
         """
         if inplace:
             df = self
