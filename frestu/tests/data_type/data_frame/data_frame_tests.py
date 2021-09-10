@@ -41,9 +41,6 @@ class DataFrameTests(unittest.TestCase):
         self.assertEqual(df.shape[0], 2)
         self.assertEqual(df.complement_missing_minutes().shape[0], 3)
     
-    def test_select_business_minutes(self):
-        pass
-    
     def test_create_column_polynomial(self):
         df = pd.DataFrame(
             [

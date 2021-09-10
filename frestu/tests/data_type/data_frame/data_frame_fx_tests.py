@@ -22,6 +22,9 @@ class DataFrameFxTests(unittest.TestCase):
         loss = self.df.max_loss('rate')
         self.assertEqual(loss, -7)
 
+    def test_select_business_minutes(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
