@@ -71,8 +71,9 @@ class GeneContinuousLogscaleTests(unittest.TestCase):
             self.gene_partner,
             fitness_self=10, fitness_partner=20,
             learning_rate=0.5)
-        child_values = self.gene.values + 10 ** (
-            (np.log10(self.gene_partner.values) - np.log10(self.gene.values))
+        child_values = 10 ** (
+            np.log10(self.gene.values)
+            + (np.log10(self.gene_partner.values) - np.log10(self.gene.values))
             * 0.5)
         self.assertEqual(list(gene_child.values), list(child_values))
 

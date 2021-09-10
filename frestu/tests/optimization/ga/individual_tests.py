@@ -58,6 +58,11 @@ class IndividualTests(unittest.TestCase):
 
         # 今回は partner の fitness が individual の fitness より大きいので
         c_child_answer = learning_rate * (c_partner - c_ind) + c_ind
+        # 最小値以上最大以下に制限する
+        c_child_answer[
+            c_child_answer < self.gene_c.minimum] = self.gene_c.minimum
+        c_child_answer[
+            self.gene_c.maximum < c_child_answer] = self.gene_c.maximum
 
         self.assertEqual(c_child, c_child_answer)
         self.assertTrue(

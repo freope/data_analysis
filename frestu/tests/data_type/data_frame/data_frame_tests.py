@@ -44,6 +44,23 @@ class DataFrameTests(unittest.TestCase):
     def test_select_business_minutes(self):
         pass
     
+    def test_create_column_polynomial(self):
+        df = pd.DataFrame(
+            [
+                ['2020-01-01 17:00:00', 1],
+                ['2020-01-01 17:01:00', 2],
+                ['2020-01-01 17:02:00', 3],
+            ],
+            columns=['time', 'val'],
+        ).set_index('time')
+        df = DataFrame(df)
+        df = df.create_column_polynomial('val', [0.5, 2, 3])
+        for degree in [0.5, 2, 3]:
+            for i_row in range(df.shape[0]):
+                self.assertEqual(
+                    df[f'val_poly_{degree}'][i_row],
+                    df['val'][i_row] ** degree)
+
     def test_create_column_log(self):
         df = pd.DataFrame(
             [
