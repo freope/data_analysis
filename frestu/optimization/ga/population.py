@@ -76,7 +76,6 @@ class Population:
         with open(path, 'rb') as file:
             chromosomes = pickle.load(file)
         for individual, chromosome in zip(self.individuals, chromosomes):
-            # deepcopy でなければならない
             for gene_name, gene_value in chromosome.items():
                 individual.chromosome[gene_name].values = gene_value
 

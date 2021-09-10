@@ -3,10 +3,10 @@ import sys
 import unittest
 
 sys.path.append(os.path.abspath(".."))
-from frestu.optimization.ga.evaluation.classification import *
+from frestu.optimization.ga.evaluation import EvaluatorClassification
 
 
-class ClassificationTests(unittest.TestCase):
+class EvaluatorClassificationTests(unittest.TestCase):
 
     def setUp(self):
         pass

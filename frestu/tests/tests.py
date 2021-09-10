@@ -12,8 +12,8 @@ from frestu.tests.optimization.ga.population_tests import PopulationTests
 from frestu.tests.optimization.ga.individual_tests import IndividualTests
 from frestu.tests.optimization.ga.crossover_tests import CrossoverTests
 from frestu.tests.optimization.ga.selection_tests import SelectionTests
-from frestu.tests.optimization.ga.evaluation.regression_tests import RegressionTests
-from frestu.tests.optimization.ga.evaluation.classification_tests import ClassificationTests
+from frestu.tests.optimization.ga.evaluation.evaluator_regression_tests import EvaluatorRegressionTests
+from frestu.tests.optimization.ga.evaluation.evaluator_classification_tests import EvaluatorClassificationTests
 from frestu.tests.model_selection.train_test_split_tests import TrainTestSplitTests
 
 
@@ -33,8 +33,8 @@ def test_suite():
     suite.addTests(unittest.makeSuite(IndividualTests))
     suite.addTests(unittest.makeSuite(CrossoverTests))
     suite.addTests(unittest.makeSuite(SelectionTests))
-    suite.addTests(unittest.makeSuite(RegressionTests))
-    suite.addTests(unittest.makeSuite(ClassificationTests))
+    suite.addTests(unittest.makeSuite(EvaluatorRegressionTests))
+    suite.addTests(unittest.makeSuite(EvaluatorClassificationTests))
 
     # model_selection
     suite.addTests(unittest.makeSuite(TrainTestSplitTests))

@@ -1,0 +1,3 @@
+from frestu.optimization.ga.evaluation.evaluator_regression import EvaluatorRegression
+from frestu.optimization.ga.evaluation.evaluator_classification import EvaluatorClassification
+from frestu.optimization.ga.evaluation.observer_abstract import ObserverAbstract

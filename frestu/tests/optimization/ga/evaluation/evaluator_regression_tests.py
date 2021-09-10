@@ -2,17 +2,20 @@ import os
 import sys
 import unittest
 
+import pandas as pd
+
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
 
 sys.path.append(os.path.abspath(".."))
-from frestu.optimization.ga.evaluation.regression import *
+from frestu.optimization.ga.evaluation import EvaluatorRegression
+from frestu.optimization.ga.evaluation import ObserverAbstract
 from frestu.optimization.ga.gene import GeneDiscrete
 from frestu.optimization.ga.gene import GeneContinuous
 from frestu.optimization.ga.crossover import crossover_uniform
 
 
-class RegressionTests(unittest.TestCase):
+class EvaluatorRegressionTests(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -20,7 +23,7 @@ class RegressionTests(unittest.TestCase):
     def tearDown(self):
         pass
     
-    def test_create_evaluate_by_cross_validation(self):
+    def test_create_evaluating_by_cross_validation(self):
         model_class = Ridge
 
         X = pd.DataFrame(
@@ -59,13 +62,19 @@ class RegressionTests(unittest.TestCase):
         def convert_scores_to_fitness(scores):
             return -sum(scores)
 
-        evaluate = create_evaluate_by_cross_validation(
+        class ParameterObserver(ObserverAbstract):
+            def observe(self, evaluator):
+                chrom = evaluator.chromosome
+                # print('alpha: {}'.format(chrom['alpha'].values))
+
+        evaluator = EvaluatorRegression(
             model_class,
             X, y,
             translate_chromosome,
             calculate_score,
-            convert_scores_to_fitness,
-            n_splits=3)
+            convert_scores_to_fitness)
+        evaluator.add_observer(ParameterObserver())
+        evaluate = evaluator.create_evaluating_by_cross_validation(n_splits=3)
 
         gene_alpha = GeneContinuous(
             minimum=0,
