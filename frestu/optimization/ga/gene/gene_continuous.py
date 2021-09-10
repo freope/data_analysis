@@ -44,7 +44,7 @@ class GeneContinuous(GeneAbstract):
             * np.sign(fitness_partner - fitness_self)
         child_values = self.values + amount_of_change
 
-        # 最小値以上最大以下に制限する
+        # 最小値以上最大値以下に制限する
         child_values[child_values < self.minimum] = self.minimum
         child_values[self.maximum < child_values] = self.maximum
 
