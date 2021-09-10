@@ -54,7 +54,7 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_column_polynomial('val', [0.5, 2, 3])
+        df = df.create_column_polynomial(['val'], [0.5, 2, 3])
         for degree in [0.5, 2, 3]:
             for i_row in range(df.shape[0]):
                 self.assertEqual(
@@ -71,7 +71,7 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_column_log('val')
+        df = df.create_column_log(['val'])
         for i in range(df.shape[0]):
             self.assertEqual(df['val_log'][i], np.log(df['val'][i]))
     
@@ -85,7 +85,7 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_columns_diff('val', [1])
+        df = df.create_columns_diff(['val'], [1])
         self.assertTrue(np.isnan(df['val_diff_1'][0]))
         self.assertEqual(df['val_diff_1'][1], 2-1)
         self.assertEqual(df['val_diff_1'][2], 3-2)
@@ -101,7 +101,7 @@ class DataFrameTests(unittest.TestCase):
         ).set_index('time')
         df = DataFrame(df)
         df = df.create_columns_past(
-            column='val',
+            columns=['val'],
             shifts=range(1,3))
         self.assertEqual(df['val_past_1'][1], 1)
         self.assertEqual(df['val_past_2'][2], 1)
@@ -117,7 +117,7 @@ class DataFrameTests(unittest.TestCase):
         ).set_index('time')
         df = DataFrame(df)
         df = df.create_columns_future(
-            column='val',
+            columns=['val'],
             shifts=range(1,3))
         self.assertEqual(df['val_future_1'][1], 3)
         self.assertEqual(df['val_future_2'][0], 3)

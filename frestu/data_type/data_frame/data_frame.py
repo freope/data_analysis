@@ -1,3 +1,5 @@
+import itertools
+
 import numpy as np
 import pandas as pd
 
@@ -141,7 +143,8 @@ class DataFrame(pd.DataFrame):
 
         return self.__class__(df)
     
-    def create_column_polynomial(self, column, degrees, suffix='_poly_', inplace=False):
+    def create_column_polynomial(
+            self, columns, degrees, suffix='_poly_', inplace=False):
         """
         n 次式のカラムを作成する
 
@@ -171,8 +174,11 @@ class DataFrame(pd.DataFrame):
         else:
             df = self.copy()
 
-        poly_dfs = [df[column] ** degree for degree in degrees]
-        columns_name = [column + suffix + str(degree) for degree in degrees]
+        poly_dfs = []
+        columns_name = []
+        for column, degree in itertools.product(columns, degrees):
+            poly_dfs.append(df[column] ** degree)
+            columns_name.append(column + suffix + str(degree))
 
         poly_dfs = pd.concat(poly_dfs, axis=1)
         poly_dfs.columns = columns_name
@@ -181,7 +187,7 @@ class DataFrame(pd.DataFrame):
 
         return self.__class__(df)
 
-    def create_column_log(self, column, suffix='_log', inplace=False):
+    def create_column_log(self, columns, suffix='_log', inplace=False):
         """
         自然対数を取ったカラムを作成する
 
@@ -209,22 +215,31 @@ class DataFrame(pd.DataFrame):
         else:
             df = self.copy()
 
-        log_df = pd.DataFrame(np.log(df[column]))
-        log_df.columns = [column + suffix]
+        log_dfs = []
+        columns_name = []
+        for column in columns:
+            log_dfs.append(pd.DataFrame(np.log(df[column])))
+            columns_name.append(column + suffix)
 
-        df = pd.concat([df, log_df], axis=1)
+        log_dfs = pd.concat(log_dfs, axis=1)
+        log_dfs.columns = columns_name
+
+        df = pd.concat([df, log_dfs], axis=1)
 
         return self.__class__(df)
 
     def create_columns_diff(
-        self, column, shifts, suffix='_diff_', inplace=False):
+        self, columns, shifts, suffix='_diff_', inplace=False):
         if inplace:
             df = self
         else:
             df = self.copy()
 
-        diff_dfs = [df[column] - df[column].shift(i) for i in shifts]
-        columns_name = [column + suffix + str(i) for i in shifts]
+        diff_dfs = []
+        columns_name = []
+        for column, i_shift in itertools.product(columns, shifts):
+            diff_dfs.append(df[column] - df[column].shift(i_shift))
+            columns_name.append(column + suffix + str(i_shift))
 
         diff_dfs = pd.concat(diff_dfs, axis=1)
         diff_dfs.columns = columns_name
@@ -234,14 +249,17 @@ class DataFrame(pd.DataFrame):
         return self.__class__(df)
 
     def create_columns_past(
-            self, column, shifts, suffix='_past_', inplace=False):
+            self, columns, shifts, suffix='_past_', inplace=False):
         if inplace:
             df = self
         else:
             df = self.copy()
 
-        shifted_dfs = [df[column].shift(i) for i in shifts]
-        columns_name = [column + suffix + str(i) for i in shifts]
+        shifted_dfs = []
+        columns_name = []
+        for column, i_shift in itertools.product(columns, shifts):
+            shifted_dfs.append(df[column].shift(i_shift))
+            columns_name.append(column + suffix + str(i_shift))
 
         shifted_dfs = pd.concat(shifted_dfs, axis=1)
         shifted_dfs.columns = columns_name
@@ -251,14 +269,17 @@ class DataFrame(pd.DataFrame):
         return self.__class__(df)
     
     def create_columns_future(
-            self, column, shifts, suffix='_future_', inplace=False):
+            self, columns, shifts, suffix='_future_', inplace=False):
         if inplace:
             df = self
         else:
             df = self.copy()
 
-        shifted_dfs = [df[column].shift(-i) for i in shifts]
-        columns_name = [column + suffix + str(i) for i in shifts]
+        shifted_dfs = []
+        columns_name = []
+        for column, i_shift in itertools.product(columns, shifts):
+            shifted_dfs.append(df[column].shift(-i_shift))
+            columns_name.append(column + suffix + str(i_shift))
 
         shifted_dfs = pd.concat(shifted_dfs, axis=1)
         shifted_dfs.columns = columns_name
