@@ -13,7 +13,7 @@ class Population:
     def alternate(self):
         """
         各個体の適応度に応じて、世代交代を行う。
-        
+
         Notes
         -----
         事前に self.evaluate() を実行して、self.individuals 内の個体の
@@ -72,17 +72,13 @@ class Population:
         with open(path, 'wb') as file:
             pickle.dump(chromosomes, file)
 
-    def load(self, path, individual_prototype):
+    def load(self, path):
         with open(path, 'rb') as file:
             chromosomes = pickle.load(file)
-        individuals = []
-        for chromosome in chromosomes:
+        for individual, chromosome in zip(self.individuals, chromosomes):
             # deepcopy でなければならない
-            individual = copy.deepcopy(individual_prototype)
             for gene_name, gene_value in chromosome.items():
                 individual.chromosome[gene_name].values = gene_value
-            individuals.append(individual)
-        self.individuals = individuals
 
     def __select_parent(self):
         # self.individuals は事前にソートされている必要がある。
