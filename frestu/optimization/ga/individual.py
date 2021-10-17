@@ -44,6 +44,14 @@ class Individual:
     def evaluate(self):
         self.__fitness = self.__evaluate(self.chromosome)
     
+    def dump(self):
+        return dict([(gene_name, gene.values)
+                     for gene_name, gene in self.chromosome.items()])
+
+    def load(self, chromosome):
+        for gene_name, gene_value in chromosome.items():
+            self.chromosome[gene_name].values = gene_value
+
     @classmethod
     def create(cls, chromosome_prototype, evaluate, learning_rate=1.5):
         # copy でなく deepcopy でなければならないことに注意

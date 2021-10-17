@@ -2,7 +2,7 @@ import copy
 
 import numpy as np
 
-from frestu.optimization.ga.gene.gene_abstract import GeneAbstract
+from frestu.optimization.ga.gene import GeneAbstract
 
 
 class GeneContinuous(GeneAbstract):
@@ -25,13 +25,12 @@ class GeneContinuous(GeneAbstract):
         return self.__maximum
 
     def mutate(self):
-        mutated_position = np.random.uniform(
-            low=0.0, high=1.0, size=self.dimension) \
-            < self.mutate_probability
-        mutated_values = self.__realize_random()
+        is_mutated = np.random.uniform(
+            low=0.0, high=1.0, size=self.dimension) < self.mutate_probability
+        values_mutated = self._realize_random()
 
         # 突然変異が起きた成分を書き換え
-        self.values[mutated_position] = mutated_values[mutated_position]
+        self.values[is_mutated] = values_mutated[is_mutated]
         return self
 
     def crossover(self, gene_partner, **kwargs):
@@ -56,16 +55,16 @@ class GeneContinuous(GeneAbstract):
 
     def realize(self):
         if self.__random_realization:
-            self.values = self.__realize_random()
+            self.values = self._realize_random()
             return self
         
-        self.values = self.__realize_uniform()
+        self.values = self._realize_sequential()
         return self
     
-    def __realize_random(self):
+    def _realize_random(self):
         return np.random.uniform(
             low=self.minimum, high=self.maximum, size=self.dimension)
     
-    def __realize_uniform(self):
+    def _realize_sequential(self):
         return np.linspace(
             start=self.minimum, stop=self.maximum, num=self.dimension)

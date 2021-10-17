@@ -1,3 +1,4 @@
+import asyncio
 import copy
 import pickle
 
@@ -30,11 +31,13 @@ class Population:
         for i in range(self.__n_eletes):
             next_individuals.append(self.individuals[i])
 
-        # NOTE: 並列化で早くできる 
+        # 選択に用いる適応度
+        fitnesses = [individual.fitness for individual in self.individuals]
+
         for i in range(self.__n_eletes, self.__pop_size):
             # 親を選択
-            parent = self.__select_parent()
-            partner = self.__select_parent()
+            parent = self.individuals[self.__select(fitnesses)]
+            partner = self.individuals[self.__select(fitnesses)]
             # 交叉
             child = parent.crossover(partner)
             next_individuals.append(child)
@@ -43,32 +46,39 @@ class Population:
         self.individuals = next_individuals
 
     def mutate(self):
-        # NOTE: 並列化で早くできる 
+        # エリートにも突然変異が起き得る
         for individual in self.individuals:
             individual.mutate()
 
     def realize(self):
-        # NOTE: 並列化で早くできる 
         for individual in self.individuals:
             individual.realize()
         return self
+    
+    def reshuffle(self, n_subordinates, async_evaluation=None):
+        # self.individuals は事前にソートされている必要がある。
+        subordinates = self.individuals[n_subordinates:]
 
-    def evaluate(self):
-        # NOTE: 並列化で早くできる 
-        for individual in self.individuals:
-            individual.evaluate()
-        # 適応度が大きい順に並べ替え
-        self.individuals.sort(key=lambda x: -x.fitness)
+        for subordinate in subordinates:
+            subordinate.realize()
 
-    def show_result(self, show_result):
-        show_result(self.individuals)        
+        if async_evaluation == 'task':
+            self.__evaluate_with_async_tasks(subordinates)
+        elif async_evaluation == 'coroutine':
+            self.__evaluate_with_async_coroutines(subordinates)
+        else:
+            self.__evaluate(subordinates)
+
+    def evaluate(self, async_evaluation=None):
+        if async_evaluation == 'task':
+            self.__evaluate_with_async_tasks(self.individuals)
+        elif async_evaluation == 'coroutine':
+            self.__evaluate_with_async_coroutines(self.individuals)
+        else:
+            self.__evaluate(self.individuals)
     
     def save(self, path):
-        chromosomes = [
-            dict([
-                (gene_name, gene.values)
-                for gene_name, gene in individual.chromosome.items()])
-            for individual in self.individuals]
+        chromosomes = [individual.dump() for individual in self.individuals]
         with open(path, 'wb') as file:
             pickle.dump(chromosomes, file)
 
@@ -76,18 +86,44 @@ class Population:
         with open(path, 'rb') as file:
             chromosomes = pickle.load(file)
         for individual, chromosome in zip(self.individuals, chromosomes):
-            for gene_name, gene_value in chromosome.items():
-                individual.chromosome[gene_name].values = gene_value
+            individual.load(chromosome)
 
-    def __select_parent(self):
-        # self.individuals は事前にソートされている必要がある。
-        fitnesses = [individual.fitness for individual in self.individuals]
-        ix_selected = self.__select(fitnesses)
-        return self.individuals[ix_selected]
-    
+    def __evaluate(self, individuals):
+        for individual in individuals:
+            individual.evaluate()
+        # 評価後に必ずソート
+        self.__sort_individuals()
+
+    def __evaluate_with_async_coroutines(self, individuals):
+        loop = asyncio.get_event_loop()
+        async def evaluate_async():
+            async def _evaluate(ind):
+                await loop.run_in_executor(None, ind.evaluate)
+            coroutines = [_evaluate(ind) for ind in individuals]
+            await asyncio.gather(*coroutines)
+        loop.run_until_complete(evaluate_async())
+        # 評価後に必ずソート
+        self.__sort_individuals()
+
+    def __evaluate_with_async_tasks(self, individuals):
+        loop = asyncio.get_event_loop()
+        async def evaluate_async():
+            async def _evaluate(ind):
+                await loop.run_in_executor(None, ind.evaluate)
+            tasks = [asyncio.create_task(_evaluate(ind))
+                     for ind in individuals]
+            for task in tasks:
+                await task
+        loop.run_until_complete(evaluate_async())
+        # 評価後に必ずソート
+        self.__sort_individuals()
+
+    def __sort_individuals(self):
+        # 適応度が大きい順に並べ替え
+        self.individuals.sort(key=lambda x: -x.fitness)
+
     @classmethod
-    def create(cls, individual_prototype, select, pop_size):
-        # TODO: chromosome が使いまわされていないことを確認
+    def create(cls, individual_prototype, select, pop_size, n_eletes=1):
         individuals = [
             copy.deepcopy(individual_prototype) for _ in range(pop_size)]
-        return cls(individuals, select)
+        return cls(individuals, select, n_eletes)

@@ -15,12 +15,12 @@ class GeneDiscreteTests(unittest.TestCase):
             crossover=crossover_uniform,
             dimension=3,
             mutate_probability=0.01)
-        self.gene_duplicate_false = GeneDiscrete(
+        self.gene_replacement_false = GeneDiscrete(
             candidates=[0, 1, 2, 3, 4],
             crossover=None,
             dimension=5,
             mutate_probability=0.01,
-            duplicate = False)
+            replacement = False)
         self.gene_partner = GeneDiscrete(
             candidates=[0, 1, 2, 3, 4],
             crossover=crossover_uniform,
@@ -43,7 +43,7 @@ class GeneDiscreteTests(unittest.TestCase):
         self.gene.mutate_probability = 0.1
         self.assertEqual(self.gene.mutate_probability, 0.1)
 
-    def test_mutate_duplicate_true_when_probability_is_zero(self):
+    def test_mutate_replacement_true_when_probability_is_zero(self):
         original_values = self.gene.realize().values.copy()
 
         # 全ての成分が突然変異しない場合
@@ -53,7 +53,7 @@ class GeneDiscreteTests(unittest.TestCase):
         # 全ての成分が変化していない
         self.assertEqual(list(original_values), list(mutated_values))
 
-    def test_mutate_duplicate_true_when_probability_is_one(self):
+    def test_mutate_replacement_true_when_probability_is_one(self):
         original_values = self.gene.realize().values.copy()
 
         # 全ての成分が突然変異しない場合
@@ -64,22 +64,22 @@ class GeneDiscreteTests(unittest.TestCase):
         # HACK: 突然変異前後で偶々全ての成分の値が同じになれば、失敗することに注意
         self.assertNotEqual(list(original_values), list(mutated_values))
 
-    def test_mutate_duplicate_false_when_probability_is_zero(self):
-        original_values = self.gene_duplicate_false.realize().values.copy()
+    def test_mutate_replacement_false_when_probability_is_zero(self):
+        original_values = self.gene_replacement_false.realize().values.copy()
 
         # 全ての成分が突然変異しない場合
-        self.gene_duplicate_false.mutate_probability = 0.0
-        mutated_values = self.gene_duplicate_false.mutate().values
+        self.gene_replacement_false.mutate_probability = 0.0
+        mutated_values = self.gene_replacement_false.mutate().values
 
         # 全ての成分が変化していない
         self.assertEqual(list(original_values), list(mutated_values))
 
-    def test_mutate_duplicate_false_when_probability_is_one(self):
-        original_values = self.gene_duplicate_false.realize().values.copy()
+    def test_mutate_replacement_false_when_probability_is_one(self):
+        original_values = self.gene_replacement_false.realize().values.copy()
 
         # 全ての成分が突然変異しない場合
-        self.gene_duplicate_false.mutate_probability = 1.0
-        mutated_values = self.gene_duplicate_false.mutate().values
+        self.gene_replacement_false.mutate_probability = 1.0
+        mutated_values = self.gene_replacement_false.mutate().values
 
         # 変化している成分がある
         # HACK: 突然変異前後で偶々全ての成分の値が同じになれば、失敗することに注意
