@@ -104,4 +104,5 @@ for i_gen in range(1, GEN_MAX):
 
     # 世代交代を繰り返しても、指定回数、最良個体の適応度が上がらなければ終了
     if PATIENCE < i_gen - best_gen:
+        print('TIME: {}'.format(dt.now().strftime('%Y/%m/%d %H:%M:%S')))
         break
