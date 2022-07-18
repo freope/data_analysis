@@ -6,10 +6,10 @@ import numpy as np
 
 def crossover_n_point(vec_1, vec_2, n_point):
     size = min(vec_1.shape[0], vec_2.shape[0])
-    max_n = size - 1
+    n_max = size - 1
     
-    if max_n < n_point:
-        raise ValueError(f'n_point should be {max_n} or less.')
+    if n_max < n_point:
+        raise ValueError(f'n_point should be {n_max} or less.')
     
     # 非復元抽出
     separating_positions = sorted(random.sample(range(1, size), k=n_point))

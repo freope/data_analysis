@@ -2,7 +2,9 @@ import os
 import sys
 import unittest
 
-sys.path.append(os.path.abspath(".."))
+import numpy as np
+
+sys.path.append(os.path.abspath('..'))
 from frestu.optimization.ga.crossover import *
 
 

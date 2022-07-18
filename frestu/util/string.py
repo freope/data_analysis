@@ -1,4 +1,4 @@
-def new_string(existing_strings=[], length=16, max_trial=100):
+def new_string(existing_strings=[], length=16, n_trials_max=100):
     import secrets
 
     trial = 1
@@ -7,7 +7,7 @@ def new_string(existing_strings=[], length=16, max_trial=100):
     while new_str in existing_strings:
         # 最大試行回数を上回っても新しい文字列を
         # 生成できない場合に例外を発生
-        if max_trial == trial:
+        if n_trials_max == trial:
             raise Exception
 
         trial += 1

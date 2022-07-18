@@ -1,0 +1,4 @@
+from frestu.agent.trader.strategy.period.strategy_regular_interval import StrategyRegularInterval
+from frestu.agent.trader.strategy.period.strategy_regular_interval_and_slope import StrategyRegularIntervalAndSlope
+from frestu.agent.trader.strategy.period.strategy_regular_interval_and_reverse_slope import StrategyRegularIntervalAndReverseSlope
+from frestu.agent.trader.strategy.period.strategy_regular_interval_and_curvature import StrategyRegularIntervalAndCurvature

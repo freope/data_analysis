@@ -1,0 +1,3 @@
+from frestu.agent.trader.position_size_calculation.position_size_calculator_abstract import PositionSizeCalculatorAbstract
+from frestu.agent.trader.position_size_calculation.position_size_calculator_uniform import PositionSizeCalculatorUniform
+from frestu.agent.trader.position_size_calculation.position_size_calculator_linear import PositionSizeCalculatorLinear

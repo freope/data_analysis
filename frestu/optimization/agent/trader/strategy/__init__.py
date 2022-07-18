@@ -1,0 +1,1 @@
+from frestu.optimization.agent.trader.strategy.optimizer_strategy_abstract import OptimizerStrategyAbstract

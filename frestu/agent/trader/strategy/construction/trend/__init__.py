@@ -1,0 +1,7 @@
+from frestu.agent.trader.strategy.construction.trend.strategy_gcdc_and_mau import StrategyGcdcAndMau
+from frestu.agent.trader.strategy.construction.trend.strategy_gcdc_bound_threshold import StrategyGcdcBoundThreshold
+from frestu.agent.trader.strategy.construction.trend.strategy_gcdc_bound import StrategyGcdcBound
+from frestu.agent.trader.strategy.construction.trend.strategy_gcdc_bounds import StrategyGcdcBounds
+from frestu.agent.trader.strategy.construction.trend.strategy_gcdc_stop_loss_ratio import StrategyGcdcStopLossRatio
+from frestu.agent.trader.strategy.construction.trend.strategy_ha_bb_mas_mstd_mss import StrategyHaBbMasMstdMss
+from frestu.agent.trader.strategy.construction.trend.strategy_ha_bb_mas_mstd import StrategyHaBbMasMstd

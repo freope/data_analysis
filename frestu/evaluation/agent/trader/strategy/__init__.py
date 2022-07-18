@@ -1,0 +1,1 @@
+from frestu.evaluation.agent.trader.strategy.evaluator import Evaluator

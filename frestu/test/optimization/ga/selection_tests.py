@@ -4,7 +4,7 @@ import unittest
 
 import pandas as pd
 
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath('..'))
 from frestu.optimization.ga.selection import *
 
 

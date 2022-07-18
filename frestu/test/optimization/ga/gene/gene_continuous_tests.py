@@ -2,7 +2,7 @@ import os
 import sys
 import unittest
 
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath('..'))
 from frestu.optimization.ga.gene import GeneContinuous
 
 

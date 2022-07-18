@@ -29,8 +29,8 @@ class Individual:
                 fitness_partner=partner.fitness,
                 learning_rate=self.learning_rate)
 
-        # 自身の chromosome を上書きすると、ある世代交代内で同じ個体が親に選ばれた
-        # 場合、既に crossover 後の chromosome が使われてしまうので、コピーしている。
+        # 自身の chromosome を上書きすると、ある世代交代内で同じ個体が親に選ばれた場合、
+        # 既に crossover 後の chromosome が使われてしまうので、コピーしている。
         child = copy.copy(self)
         child.chromosome = chromosome_child
         return child

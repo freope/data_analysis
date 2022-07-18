@@ -1,0 +1,5 @@
+from frestu.agent.trader.strategy.regression.strategy_cross_lasso_raw_skip import StrategyCrossLassoRawSkip
+from frestu.agent.trader.strategy.regression.strategy_cross_lasso_raw import StrategyCrossLassoRaw
+from frestu.agent.trader.strategy.regression.strategy_cross_ridge_raw_gev import StrategyCrossRidgeRawGev
+from frestu.agent.trader.strategy.regression.strategy_cross_ridge_raw_skip import StrategyCrossRidgeRawSkip
+from frestu.agent.trader.strategy.regression.strategy_cross_ridge_raw import StrategyCrossRidgeRaw

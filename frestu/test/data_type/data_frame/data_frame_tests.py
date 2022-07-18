@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath('..'))
 from frestu.data_type.data_frame import DataFrame
 
 
@@ -41,7 +41,7 @@ class DataFrameTests(unittest.TestCase):
         self.assertEqual(df.shape[0], 2)
         self.assertEqual(df.complement_missing_minutes().shape[0], 3)
     
-    def test_create_column_polynomial(self):
+    def test_add_col_polynomial(self):
         df = pd.DataFrame(
             [
                 ['2020-01-01 17:00:00', 1],
@@ -51,14 +51,14 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_column_polynomial(['val'], [0.5, 2, 3])
+        df = df.add_col_polynomial(['val'], [0.5, 2, 3])
         for degree in [0.5, 2, 3]:
             for i_row in range(df.shape[0]):
                 self.assertEqual(
                     df[f'val_poly_{degree}'][i_row],
                     df['val'][i_row] ** degree)
 
-    def test_create_column_log(self):
+    def test_add_col_log(self):
         df = pd.DataFrame(
             [
                 ['2020-01-01 17:00:00', 1],
@@ -68,11 +68,11 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_column_log(['val'])
+        df = df.add_col_log(['val'])
         for i in range(df.shape[0]):
             self.assertEqual(df['val_log'][i], np.log(df['val'][i]))
     
-    def test_create_columns_diff(self):
+    def test_add_cols_diff(self):
         df = pd.DataFrame(
             [
                 ['2020-01-01 17:00:00', 1],
@@ -82,12 +82,12 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_columns_diff(['val'], [1])
+        df = df.add_cols_diff(['val'], [1])
         self.assertTrue(np.isnan(df['val_diff_1'][0]))
         self.assertEqual(df['val_diff_1'][1], 2-1)
         self.assertEqual(df['val_diff_1'][2], 3-2)
 
-    def test_create_columns_past(self):
+    def test_add_cols_past(self):
         df = pd.DataFrame(
             [
                 ['2020-01-01 17:00:00', 1],
@@ -97,13 +97,13 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_columns_past(
+        df = df.add_cols_past(
             columns=['val'],
             shifts=range(1,3))
         self.assertEqual(df['val_past_1'][1], 1)
         self.assertEqual(df['val_past_2'][2], 1)
     
-    def test_create_columns_future(self):
+    def test_add_cols_future(self):
         df = pd.DataFrame(
             [
                 ['2020-01-01 17:00:00', 1],
@@ -113,7 +113,7 @@ class DataFrameTests(unittest.TestCase):
             columns=['time', 'val'],
         ).set_index('time')
         df = DataFrame(df)
-        df = df.create_columns_future(
+        df = df.add_cols_future(
             columns=['val'],
             shifts=range(1,3))
         self.assertEqual(df['val_future_1'][1], 3)

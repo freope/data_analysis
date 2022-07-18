@@ -1,0 +1,4 @@
+from frestu.agent.trader.strategy.construction.oscillator.strategy_macd_bound_threshold import StrategyMacdBoundThreshold
+from frestu.agent.trader.strategy.construction.oscillator.strategy_macd_bound import StrategyMacdBound
+from frestu.agent.trader.strategy.construction.oscillator.strategy_macd_bounds import StrategyMacdBounds
+from frestu.agent.trader.strategy.construction.oscillator.strategy_macd_reverse_stop_loss_ratio import StrategyMacdReverseStopLossRatio

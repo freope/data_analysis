@@ -1,0 +1,5 @@
+from frestu.agent.trader.strategy.combination.strategy_combinator_open_and_close import StrategyCombinatorOpenAndClose
+from frestu.agent.trader.strategy.combination.strategy_combinator_with_and import StrategyCombinatorWithAnd
+from frestu.agent.trader.strategy.combination.strategy_combinator_with_or import StrategyCombinatorWithOr
+from frestu.agent.trader.strategy.combination.strategy_combinator_early_close import StrategyCombinatorEarlyClose
+from frestu.agent.trader.strategy.combination.strategy_combinator_simultaneous_open import StrategyCombinatorSimultaneousOpen

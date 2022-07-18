@@ -32,7 +32,7 @@ class Population:
             next_individuals.append(self.individuals[i])
 
         # 選択に用いる適応度
-        fitnesses = [individual.fitness for individual in self.individuals]
+        fitnesses = [ind.fitness for ind in self.individuals]
 
         for i in range(self.__n_eletes, self.__pop_size):
             # 親を選択
@@ -46,13 +46,13 @@ class Population:
         self.individuals = next_individuals
 
     def mutate(self):
-        # エリートにも突然変異が起き得る
-        for individual in self.individuals:
-            individual.mutate()
+        # エリートには突然変異が起きない
+        for ind in self.individuals[self.__n_eletes:]:
+            ind.mutate()
 
     def realize(self):
-        for individual in self.individuals:
-            individual.realize()
+        for ind in self.individuals:
+            ind.realize()
         return self
     
     def reshuffle(self, n_subordinates, async_evaluation=None):
@@ -78,19 +78,19 @@ class Population:
             self.__evaluate(self.individuals)
     
     def save(self, path):
-        chromosomes = [individual.dump() for individual in self.individuals]
-        with open(path, 'wb') as file:
-            pickle.dump(chromosomes, file)
+        chromosomes = [ind.dump() for ind in self.individuals]
+        with open(path, 'wb') as outfile:
+            pickle.dump(chromosomes, outfile)
 
     def load(self, path):
-        with open(path, 'rb') as file:
-            chromosomes = pickle.load(file)
-        for individual, chromosome in zip(self.individuals, chromosomes):
-            individual.load(chromosome)
+        with open(path, 'rb') as infile:
+            chromosomes = pickle.load(infile)
+        for ind, chrom in zip(self.individuals, chromosomes):
+            ind.load(chrom)
 
     def __evaluate(self, individuals):
-        for individual in individuals:
-            individual.evaluate()
+        for ind in individuals:
+            ind.evaluate()
         # 評価後に必ずソート
         self.__sort_individuals()
 

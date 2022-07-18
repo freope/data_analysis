@@ -1,0 +1,1 @@
+from frestu.feature_extraction.extractor_feature_abstract import ExtractorFeatureAbstract

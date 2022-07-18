@@ -1,6 +1,7 @@
 import pandas as pd
 
 from frestu.data_type.data_frame import DataFrame
+from frestu.util.string import new_string
 
 
 class DataFrameFx(DataFrame):
@@ -8,15 +9,20 @@ class DataFrameFx(DataFrame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def max_profit(self, col):
-        diff = self.shift(-1) - self
-        profit = diff[(diff > 0)[col]][col].sum()
-        return profit
+    def sum_rising(self, col):
+        diff = self[col] - self.shift(1)[col]
+        rising = diff[diff > 0].sum()
+        return rising
     
-    def max_loss(self, col):
-        diff = self.shift(-1) - self
-        loss = diff[(diff < 0)[col]][col].sum()
-        return loss
+    def sum_falling(self, col):
+        diff = self[col] - self.shift(1)[col]
+        falling = diff[diff < 0].sum()
+        return falling
+
+    def sum_changing(self, col):
+        diff = self[col] - self.shift(1)[col]
+        changing = abs(diff).dropna().sum()
+        return changing
 
     def select_business_minutes(self, inplace=False):
         """

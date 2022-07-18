@@ -1,0 +1,2 @@
+from frestu.agent.trader.strategy.construction.cross.strategy_dbma_bounded_close import StrategyDbmaBoundedClose
+from frestu.agent.trader.strategy.construction.cross.strategy_dfma_bounded_close import StrategyDfmaBoundedClose

@@ -17,7 +17,7 @@ class DataFrame(pd.DataFrame):
 
         Parameters
         ----------
-        inplace : boolean, optional
+        inplace : bool, optional
             データフレームを置き換える。デフォルトは False。
         
         Returns
@@ -56,7 +56,7 @@ class DataFrame(pd.DataFrame):
 
         Parameters
         ----------
-        inplace : boolean, optional
+        inplace : bool, optional
             データフレームを置き換える。デフォルトは False。
         
         Returns
@@ -86,7 +86,7 @@ class DataFrame(pd.DataFrame):
         
         return self.__class__(df)
     
-    def create_column_polynomial(
+    def add_col_polynomial(
             self, columns, degrees, suffix='_poly_', inplace=False):
         """
         n 次式のカラムを作成する
@@ -100,7 +100,7 @@ class DataFrame(pd.DataFrame):
         suffix : str
             column で指定したカラム名の末尾に、この文字列を付加して、
             新たなカラムが作成される。
-        inplace : boolean, optional
+        inplace : bool, optional
             データフレームを置き換える。デフォルトは False。
         
         Returns
@@ -110,7 +110,7 @@ class DataFrame(pd.DataFrame):
         
         Examples
         --------
-        >>> df.create_column_polynomial('val', [0.5, 2, 3])
+        >>> df.add_col_polynomial('val', [0.5, 2, 3])
         """
         if inplace:
             df = self
@@ -130,7 +130,7 @@ class DataFrame(pd.DataFrame):
 
         return self.__class__(df)
 
-    def create_column_log(self, columns, suffix='_log', inplace=False):
+    def add_col_log(self, columns, suffix='_log', inplace=False):
         """
         自然対数を取ったカラムを作成する
 
@@ -141,7 +141,7 @@ class DataFrame(pd.DataFrame):
         suffix : str
             column で指定したカラム名の末尾に、この文字列を付加して、
             新たなカラムが作成される。
-        inplace : boolean, optional
+        inplace : bool, optional
             データフレームを置き換える。デフォルトは False。
         
         Returns
@@ -151,7 +151,7 @@ class DataFrame(pd.DataFrame):
 
         Examples
         --------
-        >>> df.create_column_log('val')
+        >>> df.add_col_log('val')
         """
         if inplace:
             df = self
@@ -171,7 +171,7 @@ class DataFrame(pd.DataFrame):
 
         return self.__class__(df)
 
-    def create_columns_diff(
+    def add_cols_diff(
         self, columns, shifts, suffix='_diff_', inplace=False):
         if inplace:
             df = self
@@ -191,7 +191,7 @@ class DataFrame(pd.DataFrame):
 
         return self.__class__(df)
 
-    def create_columns_past(
+    def add_cols_past(
             self, columns, shifts, suffix='_past_', inplace=False):
         if inplace:
             df = self
@@ -211,7 +211,7 @@ class DataFrame(pd.DataFrame):
 
         return self.__class__(df)
     
-    def create_columns_future(
+    def add_cols_future(
             self, columns, shifts, suffix='_future_', inplace=False):
         if inplace:
             df = self

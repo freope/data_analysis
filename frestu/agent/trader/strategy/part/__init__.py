@@ -1,0 +1,5 @@
+from frestu.agent.trader.strategy.part.stop_loss.strategy_part_stop_loss.strategy_part_stop_loss import StrategyPartStopLoss
+from frestu.agent.trader.strategy.part.stop_loss.strategy_part_stop_loss_ratio.strategy_part_stop_loss_ratio import StrategyPartStopLossRatio
+from frestu.agent.trader.strategy.part.take_profit.strategy_part_take_profit.strategy_part_take_profit import StrategyPartTakeProfit
+from frestu.agent.trader.strategy.part.take_profit.strategy_part_take_profit_ratio.strategy_part_take_profit_ratio import StrategyPartTakeProfitRatio
+from frestu.agent.trader.strategy.part.strategy_part_settable_extractor import StrategyPartSettableExtractor

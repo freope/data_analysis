@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-sys.path.append(os.path.abspath(".."))
+sys.path.append(os.path.abspath('..'))
 from frestu.optimization.ga.gene import GeneContinuousLogscale
 
 

@@ -1,0 +1,5 @@
+from frestu.agent.trader.strategy.strategy_abstract import StrategyAbstract
+from frestu.agent.trader.strategy.strategy_component_abstract import StrategyComponentAbstract
+from frestu.agent.trader.strategy.strategy_dependent_close_abstract import StrategyDependentCloseAbstract
+from frestu.agent.trader.strategy.strategy_independent_close.strategy_independent_close_abstract import StrategyIndependentCloseAbstract
+from frestu.agent.trader.strategy.strategy_continuous_indicator_abstract import StrategyContinuousIndicatorAbstract
